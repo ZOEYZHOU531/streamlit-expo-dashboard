@@ -55,7 +55,7 @@ if page == "Home":
 
     name_input = st.text_input("🙋‍♂️ Say hi to me here:", "")
     if name_input:
-        st.success(f"Hi {name_input}, welcome to the dashboard! 🎉
+        st.success(f"""Hi {name_input}, welcome to the dashboard! 🎉
 
 I'm Zoey Zhou, and this is my final individual coursework for the course Machine Learning in Marketing (MKTG6037MA).
 
@@ -66,7 +66,7 @@ With an undergraduate background in Events Management, I've always been curious 
 • 🎫 Explore audience structures: gender, age, city
 • 📅 Examine historical turnout data
 
-I hope this interactive experience brings insights and maybe a bit of delight ✨")
+I hope this interactive experience brings insights and maybe a bit of delight ✨""")
 
     st.markdown("### 📈 Key Performance Indicators")
     col1, col2, col3 = st.columns(3)
