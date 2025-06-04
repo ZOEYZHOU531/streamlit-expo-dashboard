@@ -9,6 +9,10 @@ st.markdown("""
 <style>
 html, body, .block-container, [class*="css"] {
     font-size: 17px;
+    background: linear-gradient(145deg, #eef3ff, #f8faff);
+    color: #333;
+}.block-container, [class*="css"] {
+    font-size: 17px;
     background-color: #f5f7ff;
     color: #333;
 }
@@ -45,11 +49,19 @@ history_df = pd.read_csv("history_event.csv")
 # Home Page
 if page == "Home":
     st.markdown("""
-    <h1 style='text-align: center; color: #2a2a2a;'>🎪 Welcome to the Expo Intelligence Dashboard</h1>
-    <p style='text-align: center;'>Crafted by ZHOU Yiting | CUHK MSc Marketing | Machine Learning in Marketing (MKTG6037MA)</p>
-    """, unsafe_allow_html=True)
+<div style='animation: fadeInUp 1.5s ease-in-out; text-align:center; font-size:28px; font-weight:bold; color:#2a2a2a; margin-top:20px'>
+🎆 Welcome to the <span style='color:#3366cc'>Expo Dashboard</span>!
+</div>
+<p style='text-align: center; font-size:18px;'>👋 Hello Professor <span style='color:#FF4B4B'>WANG Jingbo</span>,<br>this is my final individual coursework for <strong>Machine Learning in Marketing (MKTG6037MA)</strong><br>crafted with ❤️ by <strong>ZHOU Yiting</strong> | CUHK MSc Marketing</p>
+<style>
+@keyframes fadeInUp {
+  0% {opacity: 0; transform: translateY(40px);}
+  100% {opacity: 1; transform: translateY(0);}
+}
+</style>
+""", unsafe_allow_html=True)
 
-    st.image("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NrZjRkdGpid2cwMzlxNWt2djh1OWxmMm94bzR2b3VqZGpvNmVodiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2S5rxKZ6c3eQbe7Etf/giphy.gif", use_column_width=True)
+    st.image("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2xvaTNnaWdoM3dxeXRxeDY3Zm5mMnk5ZW9seDNrNGlzZW94bzc0eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tOZ42Mg6pbTUPHW/giphy.gif", width=400)
 
     
 
