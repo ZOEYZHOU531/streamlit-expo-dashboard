@@ -1,0 +1,6 @@
+EventID,Date,Venue,CompanyCount,AudienceCount
+E001,2019-01-01,Hall B,33,513
+E002,2020-01-01,Convention Center,34,514
+E003,2020-12-31,Hall A,48,640
+E004,2021-12-31,Hall B,23,1305
+E005,2022-12-31,Convention Center,20,1008
