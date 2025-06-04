@@ -61,9 +61,14 @@ if page == "Home":
 </style>
 """, unsafe_allow_html=True)
 
-    st.image("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExM2xvaTNnaWdoM3dxeXRxeDY3Zm5mMnk5ZW9seDNrNGlzZW94bzc0eiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tOZ42Mg6pbTUPHW/giphy.gif", width=400)
-
-    
+    st.markdown(
+        """
+        <div style='text-align: center; margin-bottom: 20px;'>
+            <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NrZjRkdGpid2cwMzlxNWt2djh1OWxmMm94bzR2b3VqZGpvNmVodiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2S5rxKZ6c3eQbe7Etf/giphy.gif" width="400" />
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
 
     name_input = st.text_input("🙋‍♂️ Say hi to me here:", "")
     if name_input:
