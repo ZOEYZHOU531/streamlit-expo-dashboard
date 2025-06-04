@@ -7,7 +7,7 @@ import streamlit.components.v1 as components
 st.set_page_config(page_title="Expo Dashboard", layout="wide")
 st.markdown("""
 <style>
-html, body, [class*="css"]  {
+html, body, .block-container, [class*="css"] {
     font-size: 17px;
     background-color: #f5f7ff;
     color: #333;
@@ -21,6 +21,10 @@ section.main > div {
 }
 .stSidebar {
     background-color: #f0f2f8 !important;
+}
+@keyframes fadeInUp {
+  0% {opacity: 0; transform: translateY(20px);}
+  100% {opacity: 1; transform: translateY(0);}
 }
 </style>
 """, unsafe_allow_html=True)
@@ -45,32 +49,24 @@ if page == "Home":
     <p style='text-align: center;'>Crafted by ZHOU Yiting | CUHK MSc Marketing | Machine Learning in Marketing (MKTG6037MA)</p>
     """, unsafe_allow_html=True)
 
-    components.html("""
-    <div style='text-align:center;'>
-        <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_n1eyqg1v.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px; margin:auto'"  loop  autoplay></lottie-player>
-        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    </div>
-    """, height=350)
+    st.image("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3NrZjRkdGpid2cwMzlxNWt2djh1OWxmMm94bzR2b3VqZGpvNmVodiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2S5rxKZ6c3eQbe7Etf/giphy.gif", use_column_width=True)
 
-    with st.container():
-        st.markdown("""
-        👋 **Hello Professor WANG Jingbo,**
-
-        I'm Zoey Zhou, and this is my final individual coursework for the course **Machine Learning in Marketing (MKTG6037MA)**.
-
-        With an undergraduate background in Events Management, I've always been curious about how data and machine learning can elevate experience design and operational precision in large-scale exhibitions. This dashboard is built to simulate that world:
-
-        - 🏢 Visualize company participation trends
-        - 💸 Analyze budgeting vs real revenue
-        - 🎫 Explore audience structures: gender, age, city
-        - 📅 Examine historical turnout data
-
-        I hope this interactive experience brings insights and maybe a bit of delight ✨
-        """)
+    
 
     name_input = st.text_input("🙋‍♂️ Say hi to me here:", "")
     if name_input:
-        st.success(f"Hi {name_input}, welcome to the dashboard! 🎉")
+        st.success(f"Hi {name_input}, welcome to the dashboard! 🎉
+
+I'm Zoey Zhou, and this is my final individual coursework for the course Machine Learning in Marketing (MKTG6037MA).
+
+With an undergraduate background in Events Management, I've always been curious about how data and machine learning can elevate experience design and operational precision in large-scale exhibitions. This dashboard is built to simulate that world:
+
+• 🏢 Visualize company participation trends
+• 💸 Analyze budgeting vs real revenue
+• 🎫 Explore audience structures: gender, age, city
+• 📅 Examine historical turnout data
+
+I hope this interactive experience brings insights and maybe a bit of delight ✨")
 
     st.markdown("### 📈 Key Performance Indicators")
     col1, col2, col3 = st.columns(3)
