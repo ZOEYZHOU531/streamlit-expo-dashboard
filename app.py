@@ -3,24 +3,24 @@ import pandas as pd
 import plotly.express as px
 import streamlit.components.v1 as components
 
-# Page config and global theme
+# Page config and custom theme
 st.set_page_config(page_title="Expo Dashboard", layout="wide")
 st.markdown("""
 <style>
 html, body, [class*="css"]  {
-    font-size: 18px;
+    font-size: 17px;
+    background-color: #f5f7ff;
+    color: #333;
 }
 section.main > div {
     padding: 2rem;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin: 2rem auto;
 }
 .stSidebar {
-    background-color: #f9f9fa !important;
-}
-.st-bd {
-    background-color: #f4f6fa !important;
+    background-color: #f0f2f8 !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -41,32 +41,36 @@ history_df = pd.read_csv("history_event.csv")
 # Home Page
 if page == "Home":
     st.markdown("""
-        <h1 style='text-align: center; color: #333;'>🎪 Welcome to the Expo Intelligence Dashboard</h1>
-        <p style='text-align: center;'>Crafted by ZHOU Yiting | CUHK MSc Marketing</p>
+    <h1 style='text-align: center; color: #2a2a2a;'>🎪 Welcome to the Expo Intelligence Dashboard</h1>
+    <p style='text-align: center;'>Crafted by ZHOU Yiting | CUHK MSc Marketing | Machine Learning in Marketing (MKTG6037MA)</p>
     """, unsafe_allow_html=True)
 
     components.html("""
     <div style='text-align:center;'>
-        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_hdy0htc5.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px; margin:auto"  loop  autoplay></lottie-player>
+        <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_n1eyqg1v.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px; margin:auto'"  loop  autoplay></lottie-player>
         <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     </div>
-    """, height=320)
+    """, height=350)
 
     with st.container():
         st.markdown("""
         👋 **Hello Professor WANG Jingbo,**
 
-        I'm Zoey Zhou, and this is my final individual coursework for CUHK's Marketing class — a Streamlit project themed on **Expo Management**.
+        I'm Zoey Zhou, and this is my final individual coursework for the course **Machine Learning in Marketing (MKTG6037MA)**.
 
-        Having studied **Events Management** during my undergraduate years, I’m passionate about how data can drive smarter planning in large-scale exhibitions. This dashboard aims to provide an intuitive overview of:
+        With an undergraduate background in Events Management, I've always been curious about how data and machine learning can elevate experience design and operational precision in large-scale exhibitions. This dashboard is built to simulate that world:
 
-        - 🏢 Company participation and trends
-        - 💸 Financial allocation vs actual revenue
-        - 🎫 Audience profiles (gender, age, city)
-        - 📅 Attendance evolution over time
+        - 🏢 Visualize company participation trends
+        - 💸 Analyze budgeting vs real revenue
+        - 🎫 Explore audience structures: gender, age, city
+        - 📅 Examine historical turnout data
 
-        Feel free to explore using the sidebar. I hope you enjoy this data journey. ✨
+        I hope this interactive experience brings insights and maybe a bit of delight ✨
         """)
+
+    name_input = st.text_input("🙋‍♂️ Say hi to me here:", "")
+    if name_input:
+        st.success(f"Hi {name_input}, welcome to the dashboard! 🎉")
 
     st.markdown("### 📈 Key Performance Indicators")
     col1, col2, col3 = st.columns(3)
@@ -75,12 +79,72 @@ if page == "Home":
     col3.metric("Total Revenue", f"${budget_df['ActualRevenue'].sum():,.0f}")
 
     st.markdown("### 📊 Revenue vs Budget")
-    fig = px.bar(budget_df, x="EventName", y=["PlannedBudget", "ActualRevenue"], barmode='group',
-                 title="Planned Budget vs. Actual Revenue")
-    fig.update_layout(legend_title_text='Metric', yaxis_title="Amount")
+    fig = px.bar(budget_df, x="EventName", y=["PlannedBudget", "ActualRevenue"], barmode='group')
+    fig.update_layout(title="Budget vs Revenue", legend_title_text='Metric', yaxis_title="USD")
     st.plotly_chart(fig, use_container_width=True)
 
-# (other pages remain unchanged)
+elif page == "Companies":
+    st.title("🏢 Company Participation")
+    industry_filter = st.multiselect("Select Industry:", options=sorted(company_df["Industry"].unique().tolist()), default=company_df["Industry"].unique().tolist())
+    size_filter = st.multiselect("Select Company Size:", options=sorted(company_df["Size"].unique().tolist()), default=company_df["Size"].unique().tolist())
+    filtered_df = company_df[(company_df["Industry"].isin(industry_filter)) & (company_df["Size"].isin(size_filter))]
+    st.dataframe(filtered_df, use_container_width=True)
 
+    st.markdown("### 🔍 Companies by Industry")
+    industry_counts = filtered_df["Industry"].value_counts().reset_index()
+    industry_counts.columns = ["Industry", "Company Count"]
+    fig_industry = px.bar(industry_counts, x="Industry", y="Company Count", color="Industry")
+    st.plotly_chart(fig_industry, use_container_width=True)
+
+elif page == "Finance":
+    st.title("💰 Financial Breakdown")
+    selected_event = st.selectbox("Choose an Event:", options=budget_df["EventName"].tolist())
+    event_data = budget_df[budget_df["EventName"] == selected_event].iloc[0]
+    values = [event_data["PromotionCost"], event_data["VenueCost"], event_data["ActualRevenue"]]
+    labels = ["Promotion Cost", "Venue Cost", "Actual Revenue"]
+    fig_pie = px.pie(values=values, names=labels, title=f"{selected_event} Financial Breakdown")
+    st.plotly_chart(fig_pie, use_container_width=True)
+
+    st.subheader("🔧 Simulate Budget Allocation")
+    venue_ratio = st.slider("Venue Cost %", 10, 80, 25)
+    promo_ratio = 100 - venue_ratio
+    venue_cost = int(event_data["PlannedBudget"] * venue_ratio / 100)
+    promo_cost = int(event_data["PlannedBudget"] * promo_ratio / 100)
+    simulated_values = [promo_cost, venue_cost, event_data["ActualRevenue"]]
+    fig_sim = px.pie(values=simulated_values, names=["Promotion Cost", "Venue Cost", "Actual Revenue"], title="Simulated Budget Split")
+    st.plotly_chart(fig_sim, use_container_width=True)
+
+elif page == "Audience Insights":
+    st.title("👥 Audience Demographics")
+    col1, col2 = st.columns(2)
+    with col1:
+        gender_chart = px.pie(audience_df, names="Gender", title="Gender Distribution", color_discrete_sequence=px.colors.sequential.RdBu)
+        st.plotly_chart(gender_chart, use_container_width=True)
+    with col2:
+        ticket_chart = px.pie(audience_df, names="TicketType", title="Ticket Type", color_discrete_sequence=px.colors.sequential.Plasma)
+        st.plotly_chart(ticket_chart, use_container_width=True)
+
+    st.markdown("### 🎂 Age Distribution")
+    age_hist = px.histogram(audience_df, x="Age", nbins=10, color_discrete_sequence=['#636EFA'])
+    st.plotly_chart(age_hist, use_container_width=True)
+
+    st.markdown("### 🌍 Audience by City")
+    city_counts = audience_df["City"].value_counts().reset_index()
+    city_counts.columns = ["City", "Audience Count"]
+    fig_city = px.bar(city_counts, x="City", y="Audience Count", color="City")
+    st.plotly_chart(fig_city, use_container_width=True)
+
+elif page == "History":
+    st.title("📅 Historical Events")
+    year_range = st.slider("Select Year Range:", 2019, 2024, (2019, 2024))
+    history_df["Year"] = pd.to_datetime(history_df["Date"]).dt.year
+    filtered_history = history_df[history_df["Year"].between(year_range[0], year_range[1])]
+    st.dataframe(filtered_history, use_container_width=True)
+
+    st.markdown("### 📈 Audience Count Over Time")
+    fig_line = px.line(filtered_history, x="Date", y="AudienceCount", title="Trend of Audience Count")
+    st.plotly_chart(fig_line, use_container_width=True)
+
+# Footer
 st.markdown("---")
 st.caption("Developed with ❤️ by ZHOU Yiting | UID: 1155197902 | CUHK 2025 | Streamlit + Plotly")
